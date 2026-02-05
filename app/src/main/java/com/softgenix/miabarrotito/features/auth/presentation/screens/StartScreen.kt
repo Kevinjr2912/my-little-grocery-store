@@ -22,7 +22,10 @@ import androidx.compose.ui.unit.sp
 import com.softgenix.miabarrotito.R
 
 @Composable
-fun StartScreen() {
+fun StartScreen(
+    onLoginClick: () -> Unit,
+    onRegisterClick: () -> Unit
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFFBCC3D4)
@@ -83,7 +86,7 @@ fun StartScreen() {
 
 
             Button(
-                onClick = { },
+                onClick = onLoginClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp),
@@ -100,7 +103,7 @@ fun StartScreen() {
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = {  },
+                onClick =  onRegisterClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp),
@@ -117,10 +120,5 @@ fun StartScreen() {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewStartScreen() {
-    StartScreen()
-}
 
 
