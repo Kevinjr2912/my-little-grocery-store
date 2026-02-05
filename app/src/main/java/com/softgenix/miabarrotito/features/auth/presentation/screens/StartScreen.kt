@@ -116,8 +116,11 @@ fun StartScreen() {
     }
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun PreviewStartScreen() {
     StartScreen()
 }
+
+ */
