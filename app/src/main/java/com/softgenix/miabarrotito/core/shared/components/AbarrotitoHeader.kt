@@ -100,20 +100,5 @@ fun AbarrotitoHeader(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewAbarrotitoHeader() {
-    AbarrotitoHeader(
-        title = "Configuración",
-        iconLeft = null,
-        canNavigateBack = true,
-        iconRight = ImageVector.vectorResource(id = R.drawable.tabler_icon_library_plus),
-        onBackClick = {
-            println("nav")
-        },
-        onRightIconClick = {
-            println("nva")
-        }
-    )
-}
+
 
