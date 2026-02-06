@@ -58,7 +58,11 @@ dependencies {
     implementation(libs.io.coil.kt.coil.compose)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.navigation.compose)                // IO
-    implementation(libs.androidx.compose.material.icons.extended)   // Icons
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.navigation.runtime.ktx)   // Icons
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

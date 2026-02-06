@@ -17,7 +17,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun BottomNavItem(
     icon: ImageVector,
-    isSelected: Boolean
+    isSelected: Boolean,
+    onClick: () -> Unit
 ) {
 
     val backgroundColor = if (isSelected) Color(0xFF222222) else Color(0xFFF5F5F5)
@@ -28,7 +29,7 @@ fun BottomNavItem(
             .size(56.dp)
             .clip(CircleShape)
             .background(backgroundColor)
-            .clickable {  },
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Icon(

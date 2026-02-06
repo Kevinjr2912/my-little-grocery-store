@@ -11,15 +11,22 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.softgenix.miabarrotito.R
+import com.softgenix.miabarrotito.core.shared.components.AbarrotitoHeader
+import com.softgenix.miabarrotito.core.shared.components.BottomBar
 import com.softgenix.miabarrotito.features.product_management.presentation.components.CardCategory
 import com.softgenix.miabarrotito.features.product_management.presentation.components.CardProduct
 import com.softgenix.miabarrotito.features.product_management.presentation.components.SearchBar
@@ -27,8 +34,24 @@ import com.softgenix.miabarrotito.features.product_management.presentation.viewm
 
 @Composable
 fun ManagementProductScreen(
-    viewModel: ManagementProductViewModel
+    viewModel: ManagementProductViewModel,
+    onNavigateToCreate: () -> Unit
 ) {
+
+    Scaffold(
+        topBar = {
+            AbarrotitoHeader(
+                title = "Artículos",
+                subtitle = null,
+                iconRight = ImageVector.vectorResource(id = R.drawable.tabler_icon_library_plus),
+                canNavigateBack = true,
+                onRightIconClick = {onNavigateToCreate() } ,
+
+            )
+        },
+
+
+    ) { padding -> }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(modifier = Modifier.padding(16.dp)) {

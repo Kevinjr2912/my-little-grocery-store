@@ -20,11 +20,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.softgenix.miabarrotito.R
+import com.softgenix.miabarrotito.core.navigation.Home
+import com.softgenix.miabarrotito.core.navigation.ProductManagement
 
 @Composable
 fun BottomBar(
-    selectedRoute: String = "home"
+    selectedRoute: String = "home",
+    navController: NavHostController,
 ) {
 
     Box(
@@ -49,30 +53,35 @@ fun BottomBar(
 
                 BottomNavItem(
                     icon = Icons.Default.Home,
-                    isSelected = selectedRoute == "home"
+                    isSelected = selectedRoute == "owo",
+                    onClick = { navController.navigate(Home) }
                 )
 
 
                 BottomNavItem(
                     icon = ImageVector.vectorResource(id = R.drawable.ic_cash),
-                    isSelected = selectedRoute == "sales"
+                    isSelected = selectedRoute == "sales",
+                    onClick = { navController.navigate(Home) }
                 )
 
 
                 BottomNavItem(
                     icon = ImageVector.vectorResource(id = R.drawable.ic_inventory),
-                    isSelected = selectedRoute == "inventory"
+                    isSelected = selectedRoute == "inventory",
+                    onClick = { navController.navigate(ProductManagement) }
                 )
 
 
                 BottomNavItem(
                     icon = ImageVector.vectorResource(id = R.drawable.ic_stats),
-                    isSelected = selectedRoute == "reports"
+                    isSelected = selectedRoute == "reports",
+                    onClick = { navController.navigate(Home) }
                 )
 
                 BottomNavItem(
                     icon = Icons.Default.Person,
-                    isSelected = selectedRoute == "profile"
+                    isSelected = selectedRoute == "profile",
+                    onClick = { navController.navigate(Home) }
                 )
             }
         }

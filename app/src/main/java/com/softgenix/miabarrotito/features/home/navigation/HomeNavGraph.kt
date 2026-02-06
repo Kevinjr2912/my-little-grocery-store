@@ -16,7 +16,7 @@ class HomeNavGraph (private val homeModule: HomeModule): FeatureNavGraph  {
         navGraphBuilder.composable<Home>{
 
 
-            HomeScreen()
+            HomeScreen(navController = navController)
         }
     }
 }

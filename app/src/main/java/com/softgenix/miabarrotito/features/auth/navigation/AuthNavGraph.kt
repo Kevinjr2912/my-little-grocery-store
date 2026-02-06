@@ -23,7 +23,7 @@ class AuthNavGraph (private val authModule: AuthModule): FeatureNavGraph {
 
         navGraphBuilder.composable<Login> {
             val viewModel: LoginViewModel = viewModel(
-                factory = authModule.provideLoginViewModelFactory()
+                factory =authModule.provideLoginViewModelFactory()
             )
 
             LoginScreen(
