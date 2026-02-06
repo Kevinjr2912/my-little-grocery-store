@@ -103,6 +103,7 @@ class RegisterViewModel(
                 result.fold(
                     onSuccess = { user ->
                         _isLoading.value = false
+                        _uiState.value.isSuccess = true
                         Log.d("Registro", "Usuario creado: ${user.fullName}")
                     },
                     onFailure = { e ->

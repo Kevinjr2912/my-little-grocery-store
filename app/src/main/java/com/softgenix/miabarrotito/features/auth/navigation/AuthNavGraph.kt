@@ -46,9 +46,12 @@ class AuthNavGraph (private val authModule: AuthModule): FeatureNavGraph {
 
             RegisterScreen(
                 viewModel = viewModel,
-                onBackClick = { navController.popBackStack() }
+                onBackClick = { navController.popBackStack() },
+                onNavigateToLogin = {
+                    navController.navigate(Login) {
+                        popUpTo(Register) { inclusive = true }
+                    }
+                }
             )
         }
-
-        }
-    }
+    }}

@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +30,11 @@ import com.softgenix.miabarrotito.features.auth.presentation.viewmodels.Register
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(viewModel: RegisterViewModel,onBackClick: () -> Unit = {}) {
+fun RegisterScreen(
+    viewModel: RegisterViewModel,
+    onBackClick: () -> Unit = {},
+    onNavigateToLogin: () -> Unit
+) {
 
     val name by viewModel.name.collectAsStateWithLifecycle()
     val secondSurname by viewModel.secondSurname.collectAsStateWithLifecycle()
@@ -44,7 +49,11 @@ fun RegisterScreen(viewModel: RegisterViewModel,onBackClick: () -> Unit = {}) {
 
 
 
-
+    LaunchedEffect(uiState.isSuccess) {
+        if (uiState.isSuccess) {
+            onNavigateToLogin()
+        }
+    }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFFBCC3D4)
@@ -100,7 +109,7 @@ fun RegisterScreen(viewModel: RegisterViewModel,onBackClick: () -> Unit = {}) {
              */
             CustomLoginInput(
                 value = name,
-                onValueChange = {viewModel.onChangename(it)},
+                onValueChange = { viewModel.onChangename(it) },
                 label = "Nombre",
                 icon = Icons.Default.Person
             )
@@ -108,7 +117,7 @@ fun RegisterScreen(viewModel: RegisterViewModel,onBackClick: () -> Unit = {}) {
 
             CustomLoginInput(
                 value = secondSurname,
-                onValueChange = {viewModel.onChangeSecondSurname(it)},
+                onValueChange = { viewModel.onChangeSecondSurname(it) },
                 label = "Apellido Paterno",
                 icon = Icons.Default.Person
             )
@@ -117,7 +126,7 @@ fun RegisterScreen(viewModel: RegisterViewModel,onBackClick: () -> Unit = {}) {
 
             CustomLoginInput(
                 value = email,
-                onValueChange = {viewModel.onChangeEmail(it)},
+                onValueChange = { viewModel.onChangeEmail(it) },
                 label = "Correo electrónico",
                 icon = Icons.Default.Email
             )
@@ -126,7 +135,7 @@ fun RegisterScreen(viewModel: RegisterViewModel,onBackClick: () -> Unit = {}) {
 
             CustomLoginInput(
                 value = phone,
-                onValueChange = {viewModel.onChangePhone(it)},
+                onValueChange = { viewModel.onChangePhone(it) },
                 label = "Número de teléfono",
                 icon = Icons.Default.Phone
             )
@@ -135,7 +144,7 @@ fun RegisterScreen(viewModel: RegisterViewModel,onBackClick: () -> Unit = {}) {
 
             CustomLoginInput(
                 value = password,
-                onValueChange = {viewModel.onChangePassword(it)},
+                onValueChange = { viewModel.onChangePassword(it) },
                 label = "Contraseña",
                 icon = Icons.Default.Lock,
                 isPassword = true
@@ -145,7 +154,7 @@ fun RegisterScreen(viewModel: RegisterViewModel,onBackClick: () -> Unit = {}) {
 
             CustomLoginInput(
                 value = confirmPassword,
-                onValueChange = {viewModel.onChangeConfirmPassword(it)},
+                onValueChange = { viewModel.onChangeConfirmPassword(it) },
                 label = "Repetir contraseña",
                 icon = Icons.Default.Lock,
                 isPassword = true
@@ -157,11 +166,16 @@ fun RegisterScreen(viewModel: RegisterViewModel,onBackClick: () -> Unit = {}) {
 
             Spacer(modifier = Modifier.height(40.dp))
             if (isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = Color(0xFF101828))
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    color = Color(0xFF101828)
+                )
             } else {
                 Button(
                     onClick = { viewModel.onRegister() },
-                    modifier = Modifier.fillMaxWidth().height(60.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF101828)),
                     shape = RoundedCornerShape(30.dp)
                 ) {
