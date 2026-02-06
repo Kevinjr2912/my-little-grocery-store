@@ -2,6 +2,7 @@ package com.softgenix.miabarrotito.core.di
 
 import android.content.Context
 import com.softgenix.miabarrotito.core.network.MiAbarrotitoApi
+import com.softgenix.miabarrotito.features.auth.data.datasoruces.local.AuthLocalDataSource
 import com.softgenix.miabarrotito.features.auth.data.repositories.AuthRepositoryImplementation
 import com.softgenix.miabarrotito.features.auth.domain.repositories.AuthRepository
 import com.softgenix.miabarrotito.features.product_management.data.repositories.ProductRepositoryImplementation
@@ -36,8 +37,12 @@ class AppContainer (context : Context) {
         retrofit.create(MiAbarrotitoApi::class.java)
     }
 
+    private val authLocalDataSource by lazy {
+        AuthLocalDataSource(context)
+    }
+
     val authRepository : AuthRepository by lazy {
-        AuthRepositoryImplementation(miAbarrotitoApi)
+        AuthRepositoryImplementation(miAbarrotitoApi, authLocalDataSource)
     }
 
     val productRepository : ProductRepository by lazy {

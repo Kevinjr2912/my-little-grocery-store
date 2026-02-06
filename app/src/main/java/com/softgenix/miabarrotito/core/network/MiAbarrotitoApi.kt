@@ -1,5 +1,7 @@
 package com.softgenix.miabarrotito.core.network
 
+import com.softgenix.miabarrotito.features.auth.data.datasoruces.remote.models.LoginRequest
+import com.softgenix.miabarrotito.features.auth.data.datasoruces.remote.models.LoginResponse
 import com.softgenix.miabarrotito.features.auth.data.datasoruces.remote.models.RegisterRequest
 import com.softgenix.miabarrotito.features.auth.data.datasoruces.remote.models.RegisterResponse
 import com.softgenix.miabarrotito.features.product_management.data.datasources.remote.model.ProductResponseDto
@@ -19,6 +21,9 @@ interface MiAbarrotitoApi {
         @Path("businessId") businessId: String
     ): ProductResponseDto
 
+
+    @POST("auth/sign-in")
+    suspend fun login(@Body request: LoginRequest): LoginResponse
 
 }
 

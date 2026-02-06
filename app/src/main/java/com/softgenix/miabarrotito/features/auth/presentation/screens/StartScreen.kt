@@ -94,7 +94,7 @@ fun StartScreen(
                 shape = RoundedCornerShape(32.dp)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("INICIAR SESIÓN", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text("INICIAR SESIÓN", fontWeight = FontWeight.Bold, fontSize = 16.sp,  color = Color.White)
                     Spacer(modifier = Modifier.width(8.dp))
                     Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null)
                 }

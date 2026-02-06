@@ -179,7 +179,7 @@ fun RegisterScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF101828)),
                     shape = RoundedCornerShape(30.dp)
                 ) {
-                    Text(text = "COMENZAR", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text(text = "COMENZAR", fontWeight = FontWeight.Bold, fontSize = 16.sp,  color = Color.White)
                 }
             }
 
