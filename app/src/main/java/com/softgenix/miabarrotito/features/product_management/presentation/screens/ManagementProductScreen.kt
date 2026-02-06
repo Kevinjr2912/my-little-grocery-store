@@ -2,7 +2,6 @@ package com.softgenix.miabarrotito.features.product_management.presentation.scre
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,133 +15,126 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.softgenix.miabarrotito.R
-import com.softgenix.miabarrotito.features.product_management.domain.entities.Category
 import com.softgenix.miabarrotito.features.product_management.presentation.components.CardCategory
 import com.softgenix.miabarrotito.features.product_management.presentation.components.CardProduct
 import com.softgenix.miabarrotito.features.product_management.presentation.components.SearchBar
+import com.softgenix.miabarrotito.features.product_management.presentation.viewmodels.ManagementProductViewModel
 
-@Preview(showBackground = true)
 @Composable
-fun ManagementProductScreen() {
-    var selectedCategoryId by remember { mutableStateOf(1) }
+fun ManagementProductScreen(
+    viewModel: ManagementProductViewModel
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val categories = listOf(
-        Category(1, "Vegetales", R.drawable.carrot),
-        Category(2, "Frutas", R.drawable.tabler_icon_apple),
-        Category(3, "Limpieza", R.drawable.tabler_icon_spray),
-        Category(4, "Lácteos", R.drawable.productos_lacteos),
-        Category(5, "Cereales", R.drawable.cereales),
-        Category(6, "Frituras", R.drawable.galleta),
-    )
+    Column(modifier = Modifier.padding(16.dp)) {
 
-    Column(
-        modifier = Modifier.padding(16.dp)
-    ) {
         SearchBar()
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Header de Categorías
+        // Header categorías
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = "Categorías",
                 style = MaterialTheme.typography.titleLarge
             )
 
-            TextButton(onClick = {}) {
-                Text(
-                    text = "Mirar todos",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray
-                )
+            TextButton(
+                onClick = { viewModel.onCategorySelected(null) }
+            ) {
+                Text("Mirar todos", color = Color.Gray)
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Carrusel de categorías
+        // Categorías estáticas (solo UI)
+        val categories = listOf(
+            "Vegetables",
+            "Fruits",
+            "Cleaning",
+            "Dairy",
+            "Cereals",
+            "Snacks",
+            "Others"
+        )
+
         LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(horizontal = 4.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(categories) { category ->
                 CardCategory(
-                    icon = category.icon,
-                    contentDescription = category.name,
-                    categoryName = category.name,
-                    isSelected = selectedCategoryId == category.id,
-                    onClick = { selectedCategoryId = category.id }
+                    icon = R.drawable.carrot,
+                    contentDescription = category,
+                    categoryName = category,
+                    isSelected = uiState.selectedCategory == category,
+                    onClick = {
+                        viewModel.onCategorySelected(category)
+                    }
                 )
             }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(15.dp)
-        ) {
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    CardProduct(
-                        productName = "Aguacate",
-                        price = "$ 85 kg",
-                        icon = R.drawable.carrot,
-                        backgroundColor = Color(0xFFA62A2A),
-                        onMenuClick = {}
-                    )
-
-                    CardProduct(
-                        productName = "Manzana",
-                        price = "$ 45 kg",
-                        icon = R.drawable.carrot,
-                        backgroundColor = Color(0xFF47B668),
-                        onMenuClick = {}
-                    )
-
-                }
+        when {
+            uiState.isLoading -> {
+                Text("Cargando...")
             }
 
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+            uiState.error != null -> {
+                Text(uiState.error!!, color = Color.Red)
+            }
+
+            else -> {
+                val filteredProducts =
+                    uiState.selectedCategory?.let { selected ->
+                        uiState.products.filter {
+                            it.category == selected
+                        }
+                    } ?: uiState.products
+
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
-                    CardProduct(
-                        productName = "Aguacate",
-                        price = "$ 85 kg",
-                        icon = R.drawable.carrot,
-                        backgroundColor = Color(0xFFE08427),
-                        onMenuClick = {}
-                    )
-
-                    CardProduct(
-                        productName = "Manzana",
-                        price = "$ 45 kg",
-                        icon = R.drawable.carrot,
-                        backgroundColor = Color(0xFF7E47B6),
-                        onMenuClick = {}
-                    )
-
+                    items(filteredProducts.chunked(2)) { rowProducts ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            rowProducts.forEach { product ->
+                                CardProduct(
+                                    productName = product.name,
+                                    price = product.price,
+                                    unit = product.unit,
+                                    icon = R.drawable.carrot,
+                                    backgroundColor = categoryColor(product.category),
+                                    onMenuClick = {}
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
-
-
     }
 }
+
+fun categoryColor(categoryName: String): Color =
+    when (categoryName) {
+        "Vegetables" -> Color(0xFFA62A2A)
+        "Fruits" -> Color(0xFF47B668)
+        "Cleaning" -> Color(0xFFE08427)
+        "Dairy" -> Color(0xFF7E47B6)
+        "Cereals" -> Color(0xFF4E342E)
+        "Snacks" -> Color(0xFFFF7043)
+        else -> Color.Gray
+    }
