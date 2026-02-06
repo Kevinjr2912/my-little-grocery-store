@@ -15,6 +15,8 @@ import com.softgenix.miabarrotito.core.di.AppContainer
 import com.softgenix.miabarrotito.core.navigation.NavigationWrapper
 import com.softgenix.miabarrotito.features.auth.di.AuthModule
 import com.softgenix.miabarrotito.features.auth.navigation.AuthNavGraph
+import com.softgenix.miabarrotito.features.home.di.HomeModule
+import com.softgenix.miabarrotito.features.home.navigation.HomeNavGraph
 import com.softgenix.miabarrotito.ui.theme.MiAbarrotitoTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,11 +26,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         appContainer = AppContainer(this)
         val authModule = AuthModule(appContainer)
+        val homeModule = HomeModule(appContainer)
 
 
         enableEdgeToEdge()
         val navGraphs = listOf(
             AuthNavGraph(authModule),
+            HomeNavGraph(homeModule)
         )
         setContent {
             MiAbarrotitoTheme {
