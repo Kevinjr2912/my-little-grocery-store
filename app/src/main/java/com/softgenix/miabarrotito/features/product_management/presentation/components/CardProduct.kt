@@ -32,8 +32,9 @@ import com.softgenix.miabarrotito.R
 
 @Composable
 fun CardProduct(
-    productName: String = "Aguacate",
-    price: String = "$ 85 kg",
+    productName: String,
+    price: Double,
+    unit: String,
     icon: Int,
     backgroundColor: Color = Color(0xFF5FBA7D),
     onMenuClick: () -> Unit = {}
@@ -90,7 +91,7 @@ fun CardProduct(
 
                 // Precio
                 Text(
-                    text = price,
+                    text = "$ $price $unit",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = Color.White,
