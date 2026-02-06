@@ -1,4 +1,4 @@
-package com.softgenix.miabarrotito.features.product_management.data.datasources.remote.model
+package com.softgenix.miabarrotito.features.product_management.data.datasources.remote.model.response
 
 data class CreateProductResponseDto(
     val data: CreatedProductDto

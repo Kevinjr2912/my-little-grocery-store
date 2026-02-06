@@ -1,10 +1,9 @@
 package com.softgenix.miabarrotito.features.product_management.data.datasources.remote.mapper
 
-import com.softgenix.miabarrotito.features.product_management.data.datasources.remote.model.CreateProductRequestDto
-import com.softgenix.miabarrotito.features.product_management.data.datasources.remote.model.CreatedProductDto
-import com.softgenix.miabarrotito.features.product_management.data.datasources.remote.model.ProductDto
+import com.softgenix.miabarrotito.features.product_management.data.datasources.remote.model.response.CreatedProductDto
+import com.softgenix.miabarrotito.features.product_management.data.datasources.remote.model.response.ProductDto
+import com.softgenix.miabarrotito.features.product_management.data.datasources.remote.model.response.UpdatedProductDto
 import com.softgenix.miabarrotito.features.product_management.domain.entities.Product
-import java.util.UUID
 
 fun ProductDto.toDomain(): Product {
     return Product(
@@ -18,6 +17,18 @@ fun ProductDto.toDomain(): Product {
 }
 
 fun CreatedProductDto.toDomain(): Product {
+    return Product(
+        id = id,
+        name = attributes.productName,
+        price = attributes.productPrice,
+        category = "",
+        unit = "",
+        emoji = attributes.emoji
+    )
+}
+
+
+fun UpdatedProductDto.toDomain(): Product {
     return Product(
         id = id,
         name = attributes.productName,
