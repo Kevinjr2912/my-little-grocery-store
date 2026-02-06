@@ -8,6 +8,7 @@ import com.softgenix.miabarrotito.features.auth.domain.usecases.RegisterUseCase
 import com.softgenix.miabarrotito.features.auth.presentation.screens.RegisterUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -103,7 +104,7 @@ class RegisterViewModel(
                 result.fold(
                     onSuccess = { user ->
                         _isLoading.value = false
-                        _uiState.value.isSuccess = true
+                        _uiState.update { it.copy(isSuccess = true) }
                         Log.d("Registro", "Usuario creado: ${user.fullName}")
                     },
                     onFailure = { e ->
