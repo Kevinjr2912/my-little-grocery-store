@@ -11,16 +11,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.softgenix.miabarrotito.core.di.AppContainer
 import com.softgenix.miabarrotito.core.navigation.NavigationWrapper
+import com.softgenix.miabarrotito.features.auth.di.AuthModule
 import com.softgenix.miabarrotito.features.auth.navigation.AuthNavGraph
 import com.softgenix.miabarrotito.ui.theme.MiAbarrotitoTheme
 
 class MainActivity : ComponentActivity() {
+    lateinit var appContainer: AppContainer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appContainer = AppContainer(this)
+        val authModule = AuthModule(appContainer)
+
+
         enableEdgeToEdge()
         val navGraphs = listOf(
-            AuthNavGraph(),
+            AuthNavGraph(authModule),
         )
         setContent {
             MiAbarrotitoTheme {
