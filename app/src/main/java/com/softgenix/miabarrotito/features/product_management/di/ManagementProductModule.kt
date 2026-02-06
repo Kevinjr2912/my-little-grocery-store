@@ -1,6 +1,7 @@
 package com.softgenix.miabarrotito.features.product_management.di
 
 import com.softgenix.miabarrotito.core.di.AppContainer
+import com.softgenix.miabarrotito.features.product_management.domain.usecases.DeleteProductUseCase
 import com.softgenix.miabarrotito.features.product_management.domain.usecases.GetAllProductsByBusinessUseCase
 import com.softgenix.miabarrotito.features.product_management.presentation.viewmodels.ManagementProductViewModelFactory
 
@@ -11,9 +12,14 @@ class ManagementProductModule(
         return GetAllProductsByBusinessUseCase(appContainer.productRepository)
     }
 
+    private fun provideDeleteProductUseCase(): DeleteProductUseCase {
+        return DeleteProductUseCase(appContainer.productRepository)
+    }
+
     fun provideCharactersViewModelFactory(): ManagementProductViewModelFactory {
         return ManagementProductViewModelFactory(
-            getAllProductsByBusinessUseCase = provideGetAllProductsByBusinessUseCase()
+            getAllProductsByBusinessUseCase = provideGetAllProductsByBusinessUseCase(),
+            deleteProductUseCase = provideDeleteProductUseCase()
         )
     }
 }

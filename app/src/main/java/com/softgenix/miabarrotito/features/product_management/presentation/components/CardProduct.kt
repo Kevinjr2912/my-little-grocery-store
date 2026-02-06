@@ -37,31 +37,24 @@ fun CardProduct(
     unit: String,
     icon: Int,
     backgroundColor: Color = Color(0xFF5FBA7D),
-    onMenuClick: () -> Unit = {}
+    onMenuClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .width(170.dp)
             .height(150.dp),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = backgroundColor
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        colors = CardDefaults.cardColors(containerColor = backgroundColor)
     ) {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            // Botón de menú en la esquina superior derecha
+        Box(Modifier.fillMaxSize()) {
+
             IconButton(
                 onClick = onMenuClick,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
+                modifier = Modifier.align(Alignment.TopEnd)
             ) {
                 Icon(
                     painter = painterResource(R.drawable.dots_vertical),
                     contentDescription = "Menú",
-                    modifier = Modifier.size(23.dp),
                     tint = Color.White
                 )
             }
@@ -73,30 +66,21 @@ fun CardProduct(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                // Ícono del producto
                 Icon(
                     painter = painterResource(icon),
                     contentDescription = productName,
-                    modifier = Modifier.size(25.dp),
                     tint = Color.White
                 )
 
-                // Nombre del producto
                 Text(
                     text = productName,
-                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
 
-                // Precio
                 Text(
                     text = "$ $price $unit",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White,
-                    fontSize = 15.sp,
-                    textAlign = TextAlign.Center
+                    color = Color.White
                 )
             }
         }

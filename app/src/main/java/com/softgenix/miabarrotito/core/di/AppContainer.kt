@@ -13,15 +13,15 @@ class AppContainer (context : Context) {
 
 
 
-    private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("http://192.168.1.200:3000/api/v1/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
 //    private val retrofit: Retrofit = Retrofit.Builder()
-//        .baseUrl("http://192.168.1.206:3000/api/v1/")
+//        .baseUrl("http://192.168.1.200:3000/api/v1/")
 //        .addConverterFactory(GsonConverterFactory.create())
 //        .build()
+
+    private val retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl("http://192.168.1.206:3000/api/v1/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 /*
     val jsonPlaceHolderApi : JsonPlaceHolderApi by lazy {
         retrofit.create(JsonPlaceHolderApi::class.java)
