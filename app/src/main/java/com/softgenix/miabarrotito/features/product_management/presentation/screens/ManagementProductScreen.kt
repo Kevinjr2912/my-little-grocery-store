@@ -38,6 +38,8 @@ fun ManagementProductScreen(
     onNavigateToCreate: () -> Unit
 ) {
 
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     Scaffold(
         topBar = {
             AbarrotitoHeader(
@@ -45,103 +47,104 @@ fun ManagementProductScreen(
                 subtitle = null,
                 iconRight = ImageVector.vectorResource(id = R.drawable.tabler_icon_library_plus),
                 canNavigateBack = true,
-                onRightIconClick = {onNavigateToCreate() } ,
+                iconLeft = null,
+                onRightIconClick = { onNavigateToCreate() },
 
-            )
+                )
         },
 
 
-    ) { padding -> }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        ) { paddingvalues ->
 
-    Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(paddingvalues)) {
 
-        SearchBar()
 
-        Spacer(modifier = Modifier.height(24.dp))
 
-        // Header categorías
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Categorías",
-                style = MaterialTheme.typography.titleLarge
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Header categorías
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "Categorías",
+                    style = MaterialTheme.typography.titleLarge
+                )
+
+                TextButton(
+                    onClick = { viewModel.onCategorySelected(null) }
+                ) {
+                    Text("Mirar todos", color = Color.Gray)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Categorías estáticas (solo UI)
+            val categories = listOf(
+                "Vegetables",
+                "Fruits",
+                "Cleaning",
+                "Dairy",
+                "Cereals",
+                "Snacks",
+                "Others"
             )
 
-            TextButton(
-                onClick = { viewModel.onCategorySelected(null) }
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Text("Mirar todos", color = Color.Gray)
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Categorías estáticas (solo UI)
-        val categories = listOf(
-            "Vegetables",
-            "Fruits",
-            "Cleaning",
-            "Dairy",
-            "Cereals",
-            "Snacks",
-            "Others"
-        )
-
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(categories) { category ->
-                CardCategory(
-                    icon = R.drawable.carrot,
-                    contentDescription = category,
-                    categoryName = category,
-                    isSelected = uiState.selectedCategory == category,
-                    onClick = {
-                        viewModel.onCategorySelected(category)
-                    }
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        when {
-            uiState.isLoading -> {
-                Text("Cargando...")
-            }
-
-            uiState.error != null -> {
-                Text(uiState.error!!, color = Color.Red)
-            }
-
-            else -> {
-                val filteredProducts =
-                    uiState.selectedCategory?.let { selected ->
-                        uiState.products.filter {
-                            it.category == selected
+                items(categories) { category ->
+                    CardCategory(
+                        icon = R.drawable.carrot,
+                        contentDescription = category,
+                        categoryName = category,
+                        isSelected = uiState.selectedCategory == category,
+                        onClick = {
+                            viewModel.onCategorySelected(category)
                         }
-                    } ?: uiState.products
+                    )
+                }
+            }
 
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(15.dp)
-                ) {
-                    items(filteredProducts.chunked(2)) { rowProducts ->
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            rowProducts.forEach { product ->
-                                CardProduct(
-                                    productName = product.name,
-                                    price = product.price,
-                                    unit = product.unit,
-                                    icon = R.drawable.carrot,
-                                    backgroundColor = categoryColor(product.category),
-                                    onMenuClick = {}
-                                )
+            Spacer(modifier = Modifier.height(24.dp))
+
+            when {
+                uiState.isLoading -> {
+                    Text("Cargando...")
+                }
+
+                uiState.error != null -> {
+                    Text(uiState.error!!, color = Color.Red)
+                }
+
+                else -> {
+                    val filteredProducts =
+                        uiState.selectedCategory?.let { selected ->
+                            uiState.products.filter {
+                                it.category == selected
+                            }
+                        } ?: uiState.products
+
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(15.dp)
+                    ) {
+                        items(filteredProducts.chunked(2)) { rowProducts ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                rowProducts.forEach { product ->
+                                    CardProduct(
+                                        productName = product.name,
+                                        price = product.price,
+                                        unit = product.unit,
+                                        icon = R.drawable.carrot,
+                                        backgroundColor = categoryColor(product.category),
+                                        onMenuClick = {}
+                                    )
+                                }
                             }
                         }
                     }

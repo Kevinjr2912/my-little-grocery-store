@@ -50,16 +50,17 @@ fun CreateProductManagementScreeen(onBackClick: () -> Unit) {
             AbarrotitoHeader(
                 title = "Nuevo producto",
                 canNavigateBack = true,
-                onBackClick = onBackClick
+                onBackClick = onBackClick,
+                iconLeft = null
             )
 
 
         }
-    ) {padding  ->
+    ) {paddingvalues  ->
         Column(
             modifier = Modifier
-                .padding(padding)
-                .padding(24.dp)
+                .padding(paddingvalues)
+                .padding(paddingvalues)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
