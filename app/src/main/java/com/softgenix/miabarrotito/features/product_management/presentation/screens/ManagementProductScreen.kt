@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,6 +32,8 @@ import com.softgenix.miabarrotito.core.shared.components.BottomBar
 import com.softgenix.miabarrotito.features.product_management.presentation.components.CardCategory
 import com.softgenix.miabarrotito.features.product_management.presentation.components.CardProduct
 import com.softgenix.miabarrotito.features.product_management.presentation.components.SearchBar
+import com.softgenix.miabarrotito.features.product_management.presentation.model.CategoryUiCatalog
+import com.softgenix.miabarrotito.features.product_management.presentation.utils.categoryUiFor
 import com.softgenix.miabarrotito.features.product_management.presentation.viewmodels.ManagementProductViewModel
 
 @Composable
@@ -85,28 +89,18 @@ fun ManagementProductScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Categorías estáticas (solo UI)
-        val categories = listOf(
-            "Vegetables",
-            "Fruits",
-            "Cleaning",
-            "Dairy",
-            "Cereals",
-            "Snacks",
-            "Others"
-        )
 
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(categories) { category ->
+            items(CategoryUiCatalog) { category ->
                 CardCategory(
-                    icon = R.drawable.carrot,
-                    contentDescription = category,
-                    categoryName = category,
-                    isSelected = uiState.selectedCategory == category,
+                    icon = category.iconRes,
+                    contentDescription = category.label,
+                    categoryName = category.label,
+                    isSelected = uiState.selectedCategory == category.key,
                     onClick = {
-                        viewModel.onCategorySelected(category)
+                        viewModel.onCategorySelected(category.key)
                     }
                 )
             }
@@ -145,26 +139,35 @@ fun ManagementProductScreen(
                                     price = product.price,
                                     unit = product.unit,
                                     icon = R.drawable.carrot,
-                                    backgroundColor = categoryColor(product.category),
-                                    onMenuClick = {}
+                                    backgroundColor = categoryUiFor(product.category).color,
+                                    onMenuClick = {
+                                        viewModel.onProductMenuClick(product.id)
+                                    }
                                 )
                             }
                         }
                     }
+                }
+
+                DropdownMenu(
+                    expanded = uiState.isMenuVisible,
+                    onDismissRequest = { viewModel.onDismissMenu() }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Editar") },
+                        onClick = {
+                            viewModel.onDismissMenu()
+                            // navegación a editar
+                        }
+                    )
+
+                    DropdownMenuItem(
+                        text = { Text("Eliminar") },
+                        onClick = { viewModel.onDeleteProduct() }
+                    )
                 }
             }
         }
     }
         }
 }
-
-fun categoryColor(categoryName: String): Color =
-    when (categoryName) {
-        "Vegetables" -> Color(0xFFA62A2A)
-        "Fruits" -> Color(0xFF47B668)
-        "Cleaning" -> Color(0xFFE08427)
-        "Dairy" -> Color(0xFF7E47B6)
-        "Cereals" -> Color(0xFF4E342E)
-        "Snacks" -> Color(0xFFFF7043)
-        else -> Color.Gray
-    }

@@ -7,5 +7,7 @@ data class ProductsUiState(
     val products: List<Product> = emptyList(),
     val error: String? = null,
     val isRefreshing: Boolean = false,
-    val selectedCategory: String? = null
+    val selectedCategory: String? = null,
+    val menuProductId: String? = null,
+    val isMenuVisible: Boolean = false
 )
