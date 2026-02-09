@@ -11,8 +11,6 @@ import com.softgenix.miabarrotito.features.product_management.di.ManagementProdu
 import com.softgenix.miabarrotito.features.product_management.presentation.viewmodels.ManagementProductViewModel
 import com.softgenix.miabarrotito.features.product_management.presentation.screens.CreateProductManagementScreeen
 import com.softgenix.miabarrotito.features.product_management.presentation.screens.ManagementProductScreen
-import com.softgenix.miabarrotito.features.product_management.presentation.viewmodels.CreateProductManagementViewModel
-import com.softgenix.miabarrotito.features.product_management.presentation.viewmodels.CreateProductViewModelFactory
 
 class ProductManagementNavGraph(private val managementProductModule: ManagementProductModule) :
     FeatureNavGraph {
@@ -28,13 +26,8 @@ class ProductManagementNavGraph(private val managementProductModule: ManagementP
         }
 
         navGraphBuilder.composable<CreateProduct> {
-            val createVm: CreateProductManagementViewModel = viewModel(
-
-                factory = CreateProductViewModelFactory()
-            )
-
+            // Asegúrate de que CreateProductManagementScreeen SOLO pida onBackClick
             CreateProductManagementScreeen(
-                viewModel = createVm,
                 onBackClick = { navController.popBackStack() }
             )
         }
