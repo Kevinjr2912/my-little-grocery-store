@@ -30,7 +30,7 @@ fun BottomNavItem(
             .size(56.dp)
             .clip(CircleShape)
             .background(backgroundColor)
-            .clickable { onClick },
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Icon(

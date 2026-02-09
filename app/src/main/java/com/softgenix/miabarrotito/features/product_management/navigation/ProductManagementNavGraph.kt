@@ -19,7 +19,8 @@ class ProductManagementNavGraph(private val managementProductModule: ManagementP
                 viewModel(factory = managementProductModule.provideCharactersViewModelFactory())
             ManagementProductScreen(
                 viewModel = viewModel,
-                onNavigateToCreateProduct = { navController.navigate(Home) }
+                onNavigateToCreateProduct = { navController.navigate(Home) },
+                navController
             )
         }
     }
