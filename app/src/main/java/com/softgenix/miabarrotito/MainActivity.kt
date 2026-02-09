@@ -18,6 +18,7 @@ import com.softgenix.miabarrotito.features.auth.navigation.AuthNavGraph
 import com.softgenix.miabarrotito.features.home.di.HomeModule
 import com.softgenix.miabarrotito.features.home.navigation.HomeNavGraph
 import com.softgenix.miabarrotito.features.product_management.di.ManagementProductModule
+import com.softgenix.miabarrotito.features.product_management.navigation.ProductManagementNavGraph
 import com.softgenix.miabarrotito.features.product_management.presentation.screens.ManagementProductScreen
 import com.softgenix.miabarrotito.features.product_management.presentation.viewmodels.ManagementProductViewModel
 import com.softgenix.miabarrotito.ui.theme.MiAbarrotitoTheme
@@ -36,19 +37,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         val navGraphs = listOf(
             AuthNavGraph(authModule),
-            HomeNavGraph(homeModule)
+            HomeNavGraph(homeModule),
+            ProductManagementNavGraph(managementProductModule)
         )
         setContent {
             MiAbarrotitoTheme {
-
-                val managementViewModel: ManagementProductViewModel =
-                    androidx.lifecycle.viewmodel.compose.viewModel(
-                        factory = managementProductModule.provideCharactersViewModelFactory()
-                    )
-
-                ManagementProductScreen(
-                    viewModel = managementViewModel
-                )
+                NavigationWrapper(navGraphs)
             }
         }
     }

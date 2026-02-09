@@ -1,30 +1,27 @@
 package com.softgenix.miabarrotito.core.shared.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.softgenix.miabarrotito.R
+import com.softgenix.miabarrotito.core.navigation.Home
+import com.softgenix.miabarrotito.core.navigation.ProductManagement
 
 @Composable
 fun BottomBar(
-    selectedRoute: String = "home"
+    selectedRoute: String = "home",
+    navController: NavHostController,
 ) {
 
     Box(
@@ -49,30 +46,35 @@ fun BottomBar(
 
                 BottomNavItem(
                     icon = Icons.Default.Home,
-                    isSelected = selectedRoute == "home"
+                    isSelected = selectedRoute == "home",
+                    onClick = { navController.navigate(Home) }
                 )
 
 
                 BottomNavItem(
                     icon = ImageVector.vectorResource(id = R.drawable.ic_cash),
-                    isSelected = selectedRoute == "sales"
+                    isSelected = selectedRoute == "sales",
+                    onClick = { navController.navigate(Home) }
                 )
 
 
                 BottomNavItem(
                     icon = ImageVector.vectorResource(id = R.drawable.ic_inventory),
-                    isSelected = selectedRoute == "inventory"
+                    isSelected = selectedRoute == "inventory",
+                    onClick = { navController.navigate(ProductManagement) }
                 )
 
 
                 BottomNavItem(
                     icon = ImageVector.vectorResource(id = R.drawable.ic_stats),
-                    isSelected = selectedRoute == "reports"
+                    isSelected = selectedRoute == "reports",
+                    onClick = { navController.navigate(Home) }
                 )
 
                 BottomNavItem(
                     icon = Icons.Default.Person,
-                    isSelected = selectedRoute == "profile"
+                    isSelected = selectedRoute == "profile",
+                    onClick = { navController.navigate(Home) }
                 )
             }
         }

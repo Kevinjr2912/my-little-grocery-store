@@ -8,11 +8,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import com.softgenix.miabarrotito.core.shared.components.AbarrotitoHeader
 import com.softgenix.miabarrotito.core.shared.components.BottomBar
 
 @Composable
-fun HomeScreen(){
+fun HomeScreen(navController: NavHostController){
 
     Scaffold(
         topBar = {
@@ -24,7 +25,10 @@ fun HomeScreen(){
                 )
         },
         bottomBar = {
-            BottomBar()
+            BottomBar(
+                selectedRoute = "home",
+                navController = navController
+            )
         }
     ) { paddingValues ->
         Column(
@@ -36,10 +40,4 @@ fun HomeScreen(){
         }
     }
 
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewHomeScreen() {
-    HomeScreen()
 }
