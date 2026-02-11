@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +35,7 @@ import com.softgenix.miabarrotito.features.product_management.presentation.compo
 import com.softgenix.miabarrotito.features.product_management.presentation.components.SearchBar
 import com.softgenix.miabarrotito.features.product_management.presentation.model.CategoryUiCatalog
 import com.softgenix.miabarrotito.features.product_management.presentation.utils.categoryUiFor
+import com.softgenix.miabarrotito.features.product_management.presentation.viewmodels.CreateProductViewModel
 import com.softgenix.miabarrotito.features.product_management.presentation.viewmodels.ManagementProductViewModel
 
 @Composable
@@ -45,6 +47,10 @@ fun ManagementProductScreen(
 
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    LaunchedEffect(Unit) {
+        viewModel.loadProducts()
+    }
+
     Scaffold(
         topBar = {
             AbarrotitoHeader(
@@ -64,7 +70,7 @@ fun ManagementProductScreen(
         }
     ) {paddingValues ->
 
-    Column(modifier = Modifier.padding(paddingValues)) {
+    Column(modifier = Modifier.padding(paddingValues).padding(10.dp)) {
 
         SearchBar()
 

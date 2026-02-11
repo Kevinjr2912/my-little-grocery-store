@@ -8,3 +8,4 @@ import kotlinx.serialization.Serializable
 @Serializable object Home
 @Serializable object ProductManagement
 @Serializable object CreateProduct
+@Serializable object EditProduct

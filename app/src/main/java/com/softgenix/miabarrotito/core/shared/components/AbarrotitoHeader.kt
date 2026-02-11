@@ -28,7 +28,7 @@ import com.softgenix.miabarrotito.R
 fun AbarrotitoHeader(
     title: String ,
     subtitle: String? = null,
-    iconLeft: ImageVector? = Icons.Default.Person,
+    iconLeft: ImageVector? = null,
     iconRight: ImageVector? = Icons.Default.Settings,
     canNavigateBack: Boolean = false,
     onBackClick: () -> Unit = {},
